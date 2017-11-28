@@ -1,0 +1,44 @@
+buildscript {
+    ext {
+        springBootVersion = "2.0.0.M6"
+        junitVersion = "5.0.2"
+        junitPluginVersion = "1.0.2"
+    }
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "org.junit.platform:junit-platform-gradle-plugin:${junitPluginVersion}"
+    }
+}
+
+apply plugin: "java"
+apply plugin: "eclipse"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
+apply plugin: "org.junit.platform.gradle.plugin"
+
+group = "info.matsumana.tsujun"
+version = "0.0.1-SNAPSHOT"
+sourceCompatibility = targetCompatibility = 9
+[compileJava, compileTestJava]*.options*.encoding = "UTF-8"
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-webflux")
+
+    testCompile("org.springframework.boot:spring-boot-starter-test") {
+        exclude group: "junit", module: "junit"
+    }
+    testCompile "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    testCompile("io.projectreactor:reactor-test")
+}
