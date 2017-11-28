@@ -1,0 +1,47 @@
+{
+  "name": "tsujun",
+  "license": "MIT",
+  "scripts": {
+    "watch": "webpack -w --colors",
+    "lint": "tslint --format stylish 'ui/src/**/*.ts'",
+    "build": "webpack --colors",
+    "build:prod": "NODE_ENV=production webpack",
+    "test": "ts-mocha -p ui/test --compilers ts:espower-typescript/guess ./**/*.spec.ts"
+  },
+  "directories": {
+    "test": "ui/test"
+  },
+  "dependencies": {
+    "axios": "^0.16.2",
+    "bulma": "^0.6.1",
+    "lodash": "^4.17.4",
+    "vue": "^2.5.2",
+    "vue-bulma-brace": "^0.1.0",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.85",
+    "@types/mocha": "^2.2.44",
+    "@types/power-assert": "^1.4.29",
+    "css-loader": "^0.28.7",
+    "espower-typescript": "^8.1.2",
+    "mocha": "^4.0.1",
+    "node-sass": "^4.6.1",
+    "power-assert": "^1.4.4",
+    "sass-loader": "^6.0.6",
+    "ts-loader": "^2.3.7",
+    "ts-mocha": "^1.0.3",
+    "tslint": "^5.7.0",
+    "tslint-config-airbnb": "^5.3.0",
+    "tsutils": "^2.12.1",
+    "typescript": "^2.6.1",
+    "uglify-es": "^3.1.9",
+    "uglify-es-webpack-plugin": "^0.10.0",
+    "vue-class-component": "^6.1.0",
+    "vue-loader": "^13.3.0",
+    "vue-property-decorator": "^6.0.0",
+    "vue-template-compiler": "^2.5.2",
+    "watch": "^1.0.2",
+    "webpack": "^3.7.1"
+  }
+}
