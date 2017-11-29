@@ -20,11 +20,6 @@ export default class Editor extends Vue {
     store.dispatch(ACTION.INPUT_SQL, this.sql);
   }
 
-  // cancel() {
-  //   this.sql = '';
-  //   store.dispatch(ACTION.CANCEL, this.sql);
-  // }
-
   submit() {
     store.dispatch(ACTION.SUBMIT);
   }
