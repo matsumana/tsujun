@@ -7,6 +7,8 @@ jobs:
       - image: circleci/openjdk:9-jdk
 
     steps:
+      - run: curl -sL https://deb.nodesource.com/setup_8.x | bash - && apt-get install -y nodejs && npm install -g yarn
+
       - checkout
 
       - restore_cache:
