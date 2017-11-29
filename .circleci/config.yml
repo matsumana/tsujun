@@ -1,0 +1,28 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/tsujun
+
+    docker:
+      - image: circleci/openjdk:9-jdk
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          key: tsujun-{{ checksum "build.gradle" }}
+      - run: gradle dependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: tsujun-{{ checksum "build.gradle" }}
+
+      # Run tests
+      - run: ./gradlew build
+
+      # Save results and artifacts
+      - store_test_results:
+          path: build/test-results
+      - store_artifacts:
+          path: build/libs/tsujun-*.jar
