@@ -4,11 +4,9 @@ jobs:
     working_directory: ~/tsujun
 
     docker:
-      - image: circleci/openjdk:9-jdk
+      - image: matsumana/tsujun-primary:0.1.0
 
     steps:
-      - run: curl -sL https://deb.nodesource.com/setup_8.x | bash - && apt-get install -y nodejs && npm install -g yarn
-
       - checkout
 
       - restore_cache:
@@ -17,10 +15,14 @@ jobs:
             - tsujun-{{ checksum "build.gradle" }}
             - tsujun
 
+      - run: yarn install
+      - run: yarn lint
+      - run: yarn test
       - run: ./gradlew build
 
       - save_cache:
           paths:
+            - /usr/local/share/.cache/yarn/v1
             - ~/.gradle
           key: tsujun-{{ checksum "build.gradle" }}-{{ checksum "yarn.lock" }}
 

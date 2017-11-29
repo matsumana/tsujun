@@ -43,3 +43,9 @@ dependencies {
     testRuntime "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
     testCompile("io.projectreactor:reactor-test")
 }
+
+task yarnBuildProd(type: Exec) {
+    commandLine "yarn", "build:prod"
+}
+
+classes.dependsOn yarnBuildProd
