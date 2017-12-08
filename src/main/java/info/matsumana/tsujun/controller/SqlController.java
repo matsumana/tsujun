@@ -1,5 +1,6 @@
 package info.matsumana.tsujun.controller;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ public class SqlController {
         this.ksqlService = ksqlService;
     }
 
-    @PostMapping("sql")
+    @PostMapping(path = "sql", produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
     Flux<ResponseTable> sql(@RequestBody Request request) {
         return ksqlService.sql(request);
     }
