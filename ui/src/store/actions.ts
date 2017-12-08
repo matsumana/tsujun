@@ -12,18 +12,18 @@ const actions = <ActionTree<State, any>> {
     store.commit(MUTATION.INPUT_SQL, sql);
   },
   [ACTION.SUBMIT](store: ActionContext<State, State>) {
-    api.submit(store, store.state.sequence, store.state.sql, () => {
-      const row: ResponseBase = {
+    {
+      const response: ResponseBase = {
         sequence: store.state.sequence,
         sql: store.state.sql,
         mode: -1,
       };
+      store.commit(MUTATION.SUBMIT, response);
+    }
 
-      store.commit(MUTATION.SUBMIT, row);
+    api.submit(store.state.sequence, store.state.sql, (data: string) => {
+      store.commit(MUTATION.ON_RESPONSE, data);
     });
-  },
-  [ACTION.WS_ON_MESSAGE](store: ActionContext<State, State>, json: string) {
-    store.commit(MUTATION.WS_ON_MESSAGE, json);
   },
 };
 

@@ -15,7 +15,7 @@ const mutations = <MutationTree<State>> {
     state.results.unshift(response);
     state.sequence = state.sequence + 1;
   },
-  [MUTATION.WS_ON_MESSAGE](state: State, json: string) {
+  [MUTATION.ON_RESPONSE](state: State, json: string) {
     const response: ResponseBase = JSON.parse(json);
 
     for (const row of state.results) {
