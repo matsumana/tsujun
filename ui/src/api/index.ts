@@ -12,7 +12,7 @@ export class Api {
 
     const config: AxiosRequestConfig = {
       headers: {
-        "Accept": "application/stream+json",
+        Accept: 'application/stream+json',
       },
     };
 
