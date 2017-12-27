@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.google.common.base.Strings;
 
+import info.matsumana.tsujun.config.KsqlServerConfig;
 import info.matsumana.tsujun.model.Request;
 import info.matsumana.tsujun.model.ResponseTable;
 import info.matsumana.tsujun.model.ksql.KsqlRequest;
@@ -26,19 +27,23 @@ public class KsqlService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final String ksqlApiServer = !Strings.isNullOrEmpty(System.getenv("KSQL_API_SERVER"))
-                                         ? System.getenv("KSQL_API_SERVER")
-                                         : "http://localhost:8080";
-
     private final ObjectReader reader = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             .readerFor(new TypeReference<KsqlResponse>() {});
+
+    private final KsqlServerConfig ksqlServerConfig;
+
+    public KsqlService(KsqlServerConfig ksqlServerConfig) {
+        this.ksqlServerConfig = ksqlServerConfig;
+    }
 
     public Flux<ResponseTable> sql(Request request) {
 
         KsqlRequest ksqlQuery = new KsqlRequest(request.getSql());
 
-        return WebClient.create(ksqlApiServer)
+        logger.debug("KSQL server={}", ksqlServerConfig);
+
+        return WebClient.create(ksqlServerConfig.getServer())
                         .post()
                         .uri("/query")
                         .body(Mono.just(ksqlQuery), KsqlRequest.class)
@@ -54,12 +59,10 @@ public class KsqlService {
                                 try {
                                     return reader.readValue(s);
                                 } catch (IOException ignore) {
-//                                    throw new UncheckedIOException(e);
                                     return new KsqlResponse();
                                 }
                             }
                         })
-//                        .filter(res -> res.getRow() != null && res.getErrorMessage() == null)
                         .filter(res -> res.getRow() != null)
                         .map(ksqlResponse -> {
                             ResponseTable responseTable = new ResponseTable();
