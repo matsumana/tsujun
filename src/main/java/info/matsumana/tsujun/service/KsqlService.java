@@ -1,6 +1,8 @@
 package info.matsumana.tsujun.service;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -43,6 +45,14 @@ public class KsqlService {
 
         logger.debug("KSQL server={}", ksqlServerConfig);
 
+        // In the WebClient, sometimes the response gets cut off in the middle of json.
+        // For example, as in the following log.
+        // So, temporarily save the failed data to a variable, combine and use the next response.
+        //
+        // 2017-12-28 20:54:27.832 DEBUG 70874 --- [ctor-http-nio-5] i.matsumana.tsujun.service.KsqlService   : {"r
+        // 2017-12-28 20:54:27.833 DEBUG 70874 --- [ctor-http-nio-5] i.matsumana.tsujun.service.KsqlService   : ow":{"columns":["Page_27",0]},"errorMessage":null}
+        Deque<String> previousFailed = new ArrayDeque<>();
+
         return WebClient.create(ksqlServerConfig.getServer())
                         .post()
                         .uri("/query")
@@ -59,7 +69,17 @@ public class KsqlService {
                                 try {
                                     return reader.readValue(s);
                                 } catch (IOException ignore) {
-                                    return new KsqlResponse();
+                                    if (previousFailed.isEmpty()) {
+                                        previousFailed.addFirst(s);
+                                        return new KsqlResponse();
+                                    } else {
+                                        try {
+                                            String completeJson = previousFailed.removeFirst() + s;
+                                            return reader.readValue(completeJson);
+                                        } catch (IOException ignore2) {
+                                            return new KsqlResponse();
+                                        }
+                                    }
                                 }
                             }
                         })
