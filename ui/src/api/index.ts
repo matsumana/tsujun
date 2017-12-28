@@ -36,7 +36,7 @@ export class Api {
           callback(rows);
 
           return this.pump(reader, callback);
-        }
+        },
     );
   }
 }
