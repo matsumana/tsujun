@@ -1,9 +1,11 @@
 const INPUT_SQL = 'INPUT_SQL';
 const SUBMIT = 'SUBMIT';
+const SUBMITED = 'SUBMITED';
 const ON_RESPONSE = 'ON_RESPONSE';
 
 export const MUTATION = {
   INPUT_SQL,
   SUBMIT,
+  SUBMITED,
   ON_RESPONSE,
 };

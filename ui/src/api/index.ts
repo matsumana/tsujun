@@ -1,28 +1,27 @@
-import axios, { AxiosRequestConfig } from 'axios';
 import { Request as Req } from '../store/model/Request';
-
-const API_END_POINT = `${window.location.protocol}//${window.location.host}/sql`;
 
 export class Api {
 
   submit(sequence: number, sql: string, callback: (data: string) => void): void {
-    const param = new Req();
-    param.sequence = sequence;
-    param.sql = sql;
+    const requestBody = new Req();
+    requestBody.sequence = sequence;
+    requestBody.sql = sql;
 
-    const config: AxiosRequestConfig = {
-      headers: {
-        Accept: 'application/stream+json',
-      },
-    };
+    const headers = new Headers({
+      Accept: 'application/stream+json',  // for streaming with WebFlux
+      'Content-Type': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest',
+    });
 
-    axios.post(API_END_POINT, param, config)
-        .then((response) => {
-          console.log(response.data);
-          callback(response.data);
-        })
-        .catch(error => {
-          console.error(error);
-        });
+    fetch(`${window.location.protocol}//${window.location.host}/sql`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(requestBody),
+    }).then((response) => {
+      response.body.getReader().read().then((result) => {
+        const rows = String.fromCharCode.apply('', new Uint16Array(result.value));
+        callback(rows);
+      });
+    });
   }
 }

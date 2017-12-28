@@ -3,6 +3,7 @@ package info.matsumana.tsujun.model.ksql;
 import java.util.Objects;
 
 public class KsqlRequest {
+
     private String ksql;
 
     public KsqlRequest(String ksql) {
@@ -21,19 +22,18 @@ public class KsqlRequest {
     public boolean equals(Object o) {
         if (this == o) { return true; }
         if (o == null || getClass() != o.getClass()) { return false; }
-        KsqlRequest ksqlQuery = (KsqlRequest) o;
-        return Objects.equals(ksql, ksqlQuery.ksql);
+        KsqlRequest that = (KsqlRequest) o;
+        return Objects.equals(ksql, that.ksql);
     }
 
     @Override
     public int hashCode() {
-
         return Objects.hash(ksql);
     }
 
     @Override
     public String toString() {
-        return "KsqlQuery{" +
+        return "KsqlRequest{" +
                "ksql='" + ksql + '\'' +
                '}';
     }

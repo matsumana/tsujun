@@ -24,6 +24,8 @@ const actions = <ActionTree<State, any>> {
     api.submit(store.state.sequence, store.state.sql, (data: string) => {
       store.commit(MUTATION.ON_RESPONSE, data);
     });
+
+    store.commit(MUTATION.SUBMITED);
   },
 };
 

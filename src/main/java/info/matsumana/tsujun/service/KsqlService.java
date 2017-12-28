@@ -66,7 +66,7 @@ public class KsqlService {
                         .filter(res -> res.getRow() != null)
                         .map(ksqlResponse -> {
                             ResponseTable responseTable = new ResponseTable();
-                            responseTable.setData(ksqlResponse.getRow());
+                            responseTable.setData(ksqlResponse.getRow().getColumns());
                             responseTable.setSequence(request.getSequence());
                             responseTable.setMode(1);
                             responseTable.setSql(request.getSql());

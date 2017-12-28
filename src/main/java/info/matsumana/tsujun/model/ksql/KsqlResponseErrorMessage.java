@@ -1,8 +1,11 @@
 package info.matsumana.tsujun.model.ksql;
 
+import java.util.Objects;
+
 public class KsqlResponseErrorMessage {
-    String message;
-    String stackTrace;
+
+    private String message;
+    private String stackTrace;
 
     public String getMessage() {
         return message;
@@ -18,6 +21,21 @@ public class KsqlResponseErrorMessage {
 
     public void setStackTrace(String stackTrace) {
         this.stackTrace = stackTrace;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) { return true; }
+        if (o == null || getClass() != o.getClass()) { return false; }
+        KsqlResponseErrorMessage that = (KsqlResponseErrorMessage) o;
+        return Objects.equals(message, that.message) &&
+               Objects.equals(stackTrace, that.stackTrace);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(message, stackTrace);
     }
 
     @Override
