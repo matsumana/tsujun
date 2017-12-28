@@ -1,16 +1,22 @@
 package info.matsumana.tsujun;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+
+import info.matsumana.tsujun.service.KsqlService;
+
+@SpringJUnitConfig(TsujunApplication.class)
 public class TsujunApplicationTest {
 
+    @Autowired
+    private KsqlService ksqlService;
+
     @Test
-    public void contextLoads() {
+    void contextLoads() {
+        assertNotNull(ksqlService);
     }
 
 }

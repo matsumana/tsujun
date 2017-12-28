@@ -1,9 +1,11 @@
 const INPUT_SQL = 'INPUT_SQL';
 const SUBMIT = 'SUBMIT';
-const WS_ON_MESSAGE = 'WS_ON_MESSAGE';
+const SUBMITED = 'SUBMITED';
+const ON_RESPONSE = 'ON_RESPONSE';
 
 export const MUTATION = {
   INPUT_SQL,
   SUBMIT,
-  WS_ON_MESSAGE,
+  SUBMITED,
+  ON_RESPONSE,
 };

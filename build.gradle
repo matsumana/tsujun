@@ -1,7 +1,10 @@
 buildscript {
     ext {
-        springBootVersion = "2.0.0.M6"
-        junitVersion = "5.0.2"
+        springBootVersion = "2.0.0.M7"
+        guavaVersion = "23.5-jre"
+        commonsLangVersion = "3.7"
+
+        junitJupiterVersion = "5.0.2"
         junitPluginVersion = "1.0.2"
     }
     repositories {
@@ -35,17 +38,19 @@ repositories {
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-webflux")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile("com.google.guava:guava:${guavaVersion}")
+    compile("org.apache.commons:commons-lang3:${commonsLangVersion}")
 
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude group: "junit", module: "junit"
     }
-    testCompile "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
-    testRuntime "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
     testCompile("io.projectreactor:reactor-test")
 }
 
 task yarnBuildProd(type: Exec) {
-    commandLine "yarn", "build:prod"
+    commandLine "./yarnBuildProd.sh"
 }
 
-classes.dependsOn yarnBuildProd
+bootJar.dependsOn yarnBuildProd

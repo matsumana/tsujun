@@ -1,43 +1,42 @@
-import { ActionContext } from 'vuex';
-import { State } from '../store/State';
-import { ACTION } from '../store/action-types';
 import { Request as Req } from '../store/model/Request';
-
-const WS_URL = `ws://${window.location.host}/query`;
 
 export class Api {
 
-  private ws: WebSocket;
-  private store: ActionContext<State, State>;
+  submit(sequence: number, sql: string, callback: (data: string) => void) {
+    const requestBody = new Req();
+    requestBody.sequence = sequence;
+    requestBody.sql = sql;
 
-  constructor() {
-    this.initWs();
+    const headers = new Headers({
+      Accept: 'application/stream+json',  // for streaming with WebFlux
+      'Content-Type': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest',
+    });
+
+    // referred to the follows.
+    // https://www.chromestatus.com/feature/5804334163951616
+    // https://googlechrome.github.io/samples/fetch-api/fetch-response-stream.html
+    fetch(`${window.location.protocol}//${window.location.host}/sql`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(requestBody),
+    }).then((response) => {
+      return this.pump(response.body.getReader(), callback);
+    });
   }
 
-  private initWs() {
-    this.ws = new WebSocket(WS_URL);
+  pump(reader: ReadableStreamReader, callback: (data: string) => void) {
+    reader.read().then(
+        (result) => {
+          if (result.done) {
+            return;
+          }
 
-    this.ws.onopen = () => {
-      console.log(`WebSocket open ${WS_URL}`);
-    };
+          const rows = String.fromCharCode.apply('', new Uint16Array(result.value));
+          callback(rows);
 
-    this.ws.onerror = (ev: Event) => {
-      console.error(`WebSocket error ${ev}`);
-    };
-
-    this.ws.onmessage = (ev: MessageEvent) => {
-      this.store.dispatch(ACTION.WS_ON_MESSAGE, ev.data);
-    };
-  }
-
-  submit(store: ActionContext<State, State>, sequence: number, sql: string, callback: () => void) {
-    this.store = store;
-
-    const requeset = new Req();
-    requeset.sequence = sequence;
-    requeset.sql = sql;
-    const json = JSON.stringify(requeset);
-    this.ws.send(json);
-    callback();
+          return this.pump(reader, callback);
+        },
+    );
   }
 }
