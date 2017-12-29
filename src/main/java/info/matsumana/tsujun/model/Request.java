@@ -6,20 +6,23 @@ import java.util.Objects;
 // https://github.com/rzwitserloot/lombok/issues/985
 public class Request {
 
-    private final int sequence;
-    private final String sql;
-
-    public Request(int sequence, String sql) {
-        this.sequence = sequence;
-        this.sql = sql;
-    }
+    private int sequence;
+    private String sql;
 
     public int getSequence() {
         return sequence;
     }
 
+    public void setSequence(int sequence) {
+        this.sequence = sequence;
+    }
+
     public String getSql() {
         return sql;
+    }
+
+    public void setSql(String sql) {
+        this.sql = sql;
     }
 
     @Override
@@ -33,7 +36,6 @@ public class Request {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(sequence, sql);
     }
 
