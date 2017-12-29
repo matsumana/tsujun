@@ -3,13 +3,13 @@
   "license": "MIT",
   "scripts": {
     "watch": "webpack -w --colors",
-    "lint": "tslint --format stylish 'ui/src/**/*.ts'",
+    "lint": "tslint --format stylish './javascripts/**/*.ts'",
     "build": "webpack --colors",
     "build:prod": "NODE_ENV=production webpack",
-    "test": "ts-mocha -p ui/test --compilers ts:espower-typescript/guess ./**/*.spec.ts"
+    "test": "ts-mocha -p ./javascripts/test --compilers ts:espower-typescript/guess ./**/*.spec.ts"
   },
   "directories": {
-    "test": "ui/test"
+    "test": "./javascripts/test"
   },
   "dependencies": {
     "bulma": "^0.6.1",

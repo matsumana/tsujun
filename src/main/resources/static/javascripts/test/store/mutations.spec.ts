@@ -1,6 +1,6 @@
 import * as assert from 'power-assert';
-import { ResponseTableRow } from '../../src/store/model/ResponseTableRow';
-import { ResponseText } from '../../src/store/model/ResponseText';
+import { ResponseTableRow } from '../../store/model/ResponseTableRow';
+import { ResponseText } from '../../store/model/ResponseText';
 
 describe('mutations', () => {
   it('convert from CREATE response', () => {
