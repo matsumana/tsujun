@@ -15,9 +15,9 @@ jobs:
             - tsujun-{{ checksum "build.gradle" }}
             - tsujun
 
-      - run: yarnInstall.sh
-      - run: yarnLint.sh
-      - run: yarnTest.sh
+      - run: ./yarnInstall.sh
+      - run: ./yarnLint.sh
+      - run: ./yarnTest.sh
       - run: ./gradlew build
 
       - save_cache:
