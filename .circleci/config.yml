@@ -11,7 +11,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - tsujun-{{ checksum "build.gradle" }}-{{ checksum "yarn.lock" }}
+            - tsujun-{{ checksum "build.gradle" }}-{{ checksum "src/main/resources/static/yarn.lock" }}
             - tsujun-{{ checksum "build.gradle" }}
             - tsujun
 
@@ -24,7 +24,7 @@ jobs:
           paths:
             - /usr/local/share/.cache/yarn/v1
             - ~/.gradle
-          key: tsujun-{{ checksum "build.gradle" }}-{{ checksum "yarn.lock" }}
+          key: tsujun-{{ checksum "build.gradle" }}-{{ checksum "src/main/resources/static/yarn.lock" }}
 
       - store_test_results:
           path: build/test-results
