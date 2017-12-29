@@ -12,7 +12,7 @@
             <td>
               <b>{{ index + 1 }}</b>
             </td>
-            <td v-for="(col, index) in row">
+            <td v-for="col in row">
               {{ col }}
             </td>
           </tr>
