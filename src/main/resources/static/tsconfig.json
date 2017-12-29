@@ -4,6 +4,7 @@
     "module": "ES2015",
     "target": "ES5",
     "lib": [ "dom", "es6", "es2015.collection" ],
+    "sourceMap": true,
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,

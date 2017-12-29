@@ -3,13 +3,13 @@ const UglifyEsPlugin = require('uglify-es-webpack-plugin');
 
 let jsOutputPath;
 if (process.env.JS_OUTPUT_PATH === null || process.env.JS_OUTPUT_PATH === undefined) {
-  jsOutputPath = 'build/resources/main/static/javascripts';
+  jsOutputPath = '../../../../build/resources/main/static/javascripts';
 } else {
   jsOutputPath = process.env.JS_OUTPUT_PATH;
 }
 
 module.exports = {
-  entry: "./ui/src/index.ts",
+  entry: "./javascripts/index.ts",
   output: {
     path: `${__dirname}/${jsOutputPath}`,
     filename: 'bundle.js'
