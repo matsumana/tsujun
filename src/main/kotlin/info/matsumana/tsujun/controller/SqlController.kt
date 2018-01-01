@@ -11,7 +11,7 @@ import reactor.core.publisher.Flux
 
 @RestController
 @RequestMapping("/")
-class SqlController(val ksqlService: KsqlService) {
+class SqlController(private val ksqlService: KsqlService) {
 
     @PostMapping("sql")
     fun sql(@RequestBody request: Request): Flux<ResponseTable> {

@@ -2,8 +2,6 @@ buildscript {
     ext {
         kotlinVersion = '1.2.10'
         springBootVersion = "2.0.0.M7"
-        guavaVersion = "23.5-jre"
-        commonsLangVersion = "3.7"
 
         junitJupiterVersion = "5.0.2"
         junitPluginVersion = "1.0.2"
@@ -55,8 +53,6 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-webflux")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
-    compile("com.google.guava:guava:${guavaVersion}")
-    compile("org.apache.commons:commons-lang3:${commonsLangVersion}")
 
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude group: "junit", module: "junit"
