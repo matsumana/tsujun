@@ -1,4 +1,4 @@
 package info.matsumana.tsujun.model.ksql
 
 data class KsqlResponseErrorMessage(val message: String,
-                                    val stackTrace: String)
+                                    val stackTrace: List<String>)
