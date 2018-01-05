@@ -4,7 +4,7 @@ import { ACTION } from './action-types';
 import { Api } from '../api';
 import { State } from './State';
 import { ResponseBase } from './model/ResponseBase';
-import { ResponseTransferObject } from "./model/ResponseTransferObject";
+import { ResponseTransferObject } from './model/ResponseTransferObject';
 
 const api = new Api();
 

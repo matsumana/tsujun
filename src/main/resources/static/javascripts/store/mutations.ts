@@ -6,7 +6,7 @@ import { ResponseBase } from './model/ResponseBase';
 import { ResponseText } from './model/ResponseText';
 import { ResponseTable } from './model/ResponseTable';
 import { ResponseTableRow } from './model/ResponseTableRow';
-import { ResponseTransferObject } from "./model/ResponseTransferObject";
+import { ResponseTransferObject } from './model/ResponseTransferObject';
 
 const mutations = <MutationTree<State>> {
   [MUTATION.INPUT_SQL](state: State, sql: string) {

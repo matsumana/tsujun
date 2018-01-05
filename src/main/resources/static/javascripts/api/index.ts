@@ -1,5 +1,5 @@
 import { Request as Req } from '../store/model/Request';
-import { ResponseTransferObject } from "../store/model/ResponseTransferObject";
+import { ResponseTransferObject } from '../store/model/ResponseTransferObject';
 
 export class Api {
 
