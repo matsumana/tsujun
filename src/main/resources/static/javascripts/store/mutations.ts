@@ -6,6 +6,7 @@ import { ResponseBase } from './model/ResponseBase';
 import { ResponseText } from './model/ResponseText';
 import { ResponseTable } from './model/ResponseTable';
 import { ResponseTableRow } from './model/ResponseTableRow';
+import { ResponseTransferObject } from './model/ResponseTransferObject';
 
 const mutations = <MutationTree<State>> {
   [MUTATION.INPUT_SQL](state: State, sql: string) {
@@ -17,31 +18,42 @@ const mutations = <MutationTree<State>> {
   [MUTATION.SUBMITED](state: State) {
     state.sequence = state.sequence + 1;
   },
-  [MUTATION.ON_RESPONSE](state: State, json: string) {
-    const responseRows = json.split(/\n/);
+  [MUTATION.ON_RESPONSE](state: State, responseTransferObject: ResponseTransferObject) {
 
-    for (const responseRow of responseRows) {
-
-      if (responseRow === '') {
-        continue;
-      }
-
-      const response: ResponseBase = JSON.parse(responseRow);
-
+    if (responseTransferObject.errorMessage !== null) {
       for (const row of state.results) {
-        row.mode = response.mode;
-        if (row.sequence === response.sequence) {
-          // apply response data to screen
-          if (row.mode === 0) {
-            // text
-            (row as ResponseText).text = (response as ResponseText).text;
-          } else {
-            // table
-            const responseTable = row as ResponseTable;
-            if (responseTable.data === undefined) {
-              responseTable.data = [];
+        if (row.sequence === responseTransferObject.sequence) {
+          row.mode = 0;
+          (row as ResponseText).text = responseTransferObject.errorMessage;
+        }
+      }
+    } else {
+      const json = responseTransferObject.payload;
+      const responseRows = json.split(/\n/);
+
+      for (const responseRow of responseRows) {
+
+        if (responseRow === '') {
+          continue;
+        }
+
+        const response: ResponseBase = JSON.parse(responseRow);
+
+        for (const row of state.results) {
+          if (row.sequence === response.sequence) {
+            // apply response data to screen
+            row.mode = response.mode;
+            if (row.mode === 0) {
+              // text
+              (row as ResponseText).text = (response as ResponseText).text;
+            } else {
+              // table
+              const responseTable = row as ResponseTable;
+              if (responseTable.data === undefined) {
+                responseTable.data = [];
+              }
+              responseTable.data.push((response as ResponseTableRow).data);
             }
-            responseTable.data.push((response as ResponseTableRow).data);
           }
         }
       }

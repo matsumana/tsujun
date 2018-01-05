@@ -1,8 +1,9 @@
 import { Request as Req } from '../store/model/Request';
+import { ResponseTransferObject } from '../store/model/ResponseTransferObject';
 
 export class Api {
 
-  submit(sequence: number, sql: string, callback: (data: string) => void) {
+  submit(sequence: number, sql: string, callback: (data: ResponseTransferObject) => void) {
     const requestBody = new Req();
     requestBody.sequence = sequence;
     requestBody.sql = sql;
@@ -16,16 +17,28 @@ export class Api {
     // referred to the follows.
     // https://www.chromestatus.com/feature/5804334163951616
     // https://googlechrome.github.io/samples/fetch-api/fetch-response-stream.html
-    fetch(`${window.location.protocol}//${window.location.host}/sql`, {
+    fetch('/sql', {
       method: 'POST',
       headers,
       body: JSON.stringify(requestBody),
-    }).then((response) => {
-      return this.pump(response.body.getReader(), callback);
+    }).then(response => {
+      if (response.ok) {
+        return this.pump(response.body.getReader(), callback);
+      } else {
+        response.json()
+            .then(value => {
+              const obj: ResponseTransferObject = {
+                sequence: value.sequence,
+                payload: null,
+                errorMessage: value.message,
+              };
+              callback(obj);
+            });
+      }
     });
   }
 
-  pump(reader: ReadableStreamReader, callback: (data: string) => void) {
+  pump(reader: ReadableStreamReader, callback: (data: ResponseTransferObject) => void) {
     reader.read().then(
         (result) => {
           if (result.done) {
@@ -33,7 +46,12 @@ export class Api {
           }
 
           const rows = String.fromCharCode.apply('', new Uint16Array(result.value));
-          callback(rows);
+          const obj: ResponseTransferObject = {
+            sequence: -1,
+            payload: rows,
+            errorMessage: null,
+          };
+          callback(obj);
 
           return this.pump(reader, callback);
         },

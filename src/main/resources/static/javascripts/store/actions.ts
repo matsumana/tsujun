@@ -4,6 +4,7 @@ import { ACTION } from './action-types';
 import { Api } from '../api';
 import { State } from './State';
 import { ResponseBase } from './model/ResponseBase';
+import { ResponseTransferObject } from './model/ResponseTransferObject';
 
 const api = new Api();
 
@@ -21,7 +22,7 @@ const actions = <ActionTree<State, any>> {
       store.commit(MUTATION.SUBMIT, response);
     }
 
-    api.submit(store.state.sequence, store.state.sql, (data: string) => {
+    api.submit(store.state.sequence, store.state.sql, (data: ResponseTransferObject) => {
       store.commit(MUTATION.ON_RESPONSE, data);
     });
 
