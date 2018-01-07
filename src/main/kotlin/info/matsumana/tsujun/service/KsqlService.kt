@@ -10,6 +10,7 @@ import info.matsumana.tsujun.model.Request
 import info.matsumana.tsujun.model.ResponseTable
 import info.matsumana.tsujun.model.ksql.*
 import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.WebClientResponseException
@@ -53,8 +54,15 @@ class KsqlService(private val ksqlServerConfig: KsqlServerConfig) {
         } else if (REGEX_TABLES.matches(sql)) {
             return tables(request)
         } else {
-            // TODO create application exception and handle it in ControllerAdvisor
-            throw IllegalArgumentException()
+            val rawMessage = """Currently, Tsūjun supports only the following syntax.
+                |
+                | - SELECT
+                | - (LIST | SHOW) QUERIES
+                | - (LIST | SHOW) STREAMS
+                | - (LIST | SHOW) TABLES
+            """.trimMargin()
+            val message = mapper.writeValueAsString(KsqlResponseErrorMessage(rawMessage, emptyList()))
+            throw KsqlException(request.sequence, request.sql, HttpStatus.BAD_REQUEST.value(), message)
         }
     }
 
