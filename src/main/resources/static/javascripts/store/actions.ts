@@ -28,6 +28,9 @@ const actions = <ActionTree<State, any>> {
 
     store.commit(MUTATION.SUBMITED);
   },
+  [ACTION.CANCEL](store: ActionContext<State, State>, id: number) {
+    store.commit(MUTATION.CANCEL, id);
+  },
 };
 
 export default actions;

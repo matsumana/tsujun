@@ -1,5 +1,6 @@
 import { Request as Req } from '../store/model/Request';
 import { ResponseTransferObject } from '../store/model/ResponseTransferObject';
+import { UserCancelError } from '../store/error/UserCancelError';
 
 export class Api {
 
@@ -51,7 +52,16 @@ export class Api {
             payload: rows,
             errorMessage: null,
           };
-          callback(obj);
+
+          try {
+            callback(obj);
+          } catch (err) {
+            if (err instanceof UserCancelError) {
+              reader.cancel();
+              return;
+            }
+            throw err;
+          }
 
           return this.pump(reader, callback);
         },

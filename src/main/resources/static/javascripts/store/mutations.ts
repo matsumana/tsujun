@@ -7,6 +7,7 @@ import { ResponseText } from './model/ResponseText';
 import { ResponseTable } from './model/ResponseTable';
 import { ResponseTableRow } from './model/ResponseTableRow';
 import { ResponseTransferObject } from './model/ResponseTransferObject';
+import { UserCancelError } from './error/UserCancelError';
 
 const mutations = <MutationTree<State>> {
   [MUTATION.INPUT_SQL](state: State, sql: string) {
@@ -19,7 +20,6 @@ const mutations = <MutationTree<State>> {
     state.sequence = state.sequence + 1;
   },
   [MUTATION.ON_RESPONSE](state: State, responseTransferObject: ResponseTransferObject) {
-
     if (responseTransferObject.errorMessage !== null) {
       for (const row of state.results) {
         if (row.sequence === responseTransferObject.sequence) {
@@ -32,7 +32,6 @@ const mutations = <MutationTree<State>> {
       const responseRows = json.split(/\n/);
 
       for (const responseRow of responseRows) {
-
         if (responseRow === '') {
           continue;
         }
@@ -41,6 +40,12 @@ const mutations = <MutationTree<State>> {
 
         for (const row of state.results) {
           if (row.sequence === response.sequence) {
+
+            if (state.cancels.has(response.sequence)) {
+              state.cancels.delete(response.sequence);
+              throw new UserCancelError('Canceled by user');
+            }
+
             // apply response data to screen
             row.mode = response.mode;
             if (row.mode === 0) {
@@ -61,6 +66,9 @@ const mutations = <MutationTree<State>> {
 
     // FIXME Since update of ResponseTable is not detected by vue.js, deepcopy and forcibly reflect it
     state.results = _.cloneDeep(state.results);
+  },
+  [MUTATION.CANCEL](state: State, id: number) {
+    state.cancels.add(id);
   },
 };
 
