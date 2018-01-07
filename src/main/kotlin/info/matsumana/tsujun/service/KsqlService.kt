@@ -108,15 +108,7 @@ class KsqlService(private val ksqlServerConfig: KsqlServerConfig) {
     }
 
     private fun queries(request: Request): Flux<ResponseTable> {
-        return WebClient.create(ksqlServerConfig.server)
-                .post()
-                .uri("/ksql")
-                .body(Mono.just(KsqlRequest(request.sql)), KsqlRequest::class.java)
-                .retrieve()
-                .bodyToFlux(String::class.java)
-                .doOnError { e ->
-                    handleException(e, request)
-                }
+        return generateWebClientKsql(request)
                 .map { orgString ->
                     logger.debug(orgString)
 
@@ -153,15 +145,7 @@ class KsqlService(private val ksqlServerConfig: KsqlServerConfig) {
     }
 
     private fun streams(request: Request): Flux<ResponseTable> {
-        return WebClient.create(ksqlServerConfig.server)
-                .post()
-                .uri("/ksql")
-                .body(Mono.just(KsqlRequest(request.sql)), KsqlRequest::class.java)
-                .retrieve()
-                .bodyToFlux(String::class.java)
-                .doOnError { e ->
-                    handleException(e, request)
-                }
+        return generateWebClientKsql(request)
                 .map { orgString ->
                     logger.debug(orgString)
 
@@ -198,15 +182,7 @@ class KsqlService(private val ksqlServerConfig: KsqlServerConfig) {
     }
 
     private fun tables(request: Request): Flux<ResponseTable> {
-        return WebClient.create(ksqlServerConfig.server)
-                .post()
-                .uri("/ksql")
-                .body(Mono.just(KsqlRequest(request.sql)), KsqlRequest::class.java)
-                .retrieve()
-                .bodyToFlux(String::class.java)
-                .doOnError { e ->
-                    handleException(e, request)
-                }
+        return generateWebClientKsql(request)
                 .map { orgString ->
                     logger.debug(orgString)
 
@@ -239,6 +215,18 @@ class KsqlService(private val ksqlServerConfig: KsqlServerConfig) {
                     val list = mutableListOf(header)
                     list.addAll(data)
                     Flux.fromIterable(list)
+                }
+    }
+
+    private fun generateWebClientKsql(request: Request): Flux<String> {
+        return WebClient.create(ksqlServerConfig.server)
+                .post()
+                .uri("/ksql")
+                .body(Mono.just(KsqlRequest(request.sql)), KsqlRequest::class.java)
+                .retrieve()
+                .bodyToFlux(String::class.java)
+                .doOnError { e ->
+                    handleException(e, request)
                 }
     }
 
