@@ -15,6 +15,6 @@ class SqlController(private val ksqlService: KsqlService) {
 
     @PostMapping("sql")
     fun sql(@RequestBody request: Request): Flux<ResponseTable> {
-        return ksqlService.sql(request)
+        return ksqlService.execute(request)
     }
 }
