@@ -27,9 +27,9 @@ class KsqlService(private val ksqlServerConfig: KsqlServerConfig) {
         private val mapper = ObjectMapper().registerModule(KotlinModule())
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         private val REGEX_SELECT = Regex("""^SELECT\s+?.*""", RegexOption.IGNORE_CASE)
-        private val REGEX_QUERIES = Regex("""^(LIST|SHOW)\s+?QUERIES(\s|;)+?""", RegexOption.IGNORE_CASE)
-        private val REGEX_STREAMS = Regex("""^(LIST|SHOW)\s+?STREAMS(\s|;)+?""", RegexOption.IGNORE_CASE)
-        private val REGEX_TABLES = Regex("""^(LIST|SHOW)\s+?TABLES(\s|;)+?""", RegexOption.IGNORE_CASE)
+        private val REGEX_QUERIES = Regex("""^(LIST|SHOW)\s+?QUERIES(\s|;)*""", RegexOption.IGNORE_CASE)
+        private val REGEX_STREAMS = Regex("""^(LIST|SHOW)\s+?STREAMS(\s|;)*""", RegexOption.IGNORE_CASE)
+        private val REGEX_TABLES = Regex("""^(LIST|SHOW)\s+?TABLES(\s|;)*""", RegexOption.IGNORE_CASE)
         private val emptyResponseSelect = KsqlResponseSelect(KsqlResponseSelectColumns(arrayOf()))
         private val emptyResponseQueries =
                 arrayOf(KsqlResponseQueries(KsqlResponseQueriesInner("", arrayOf(KsqlResponseQueriesInnerQueries(0, "", "")))))
