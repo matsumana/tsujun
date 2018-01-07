@@ -5,6 +5,10 @@
         <div>SQL</div>
         <pre>{{ sql }}</pre>
         <br>
+        <div>
+          <a :id="'cancel-' + sequence" class="button is-info" @click="cancel">Cancel</a>
+        </div>
+        <br>
         <div>Result</div>
         <table class="table is-bordered is-striped is-narrow">
           <tbody>
