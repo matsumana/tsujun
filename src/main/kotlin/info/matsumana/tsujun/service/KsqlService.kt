@@ -41,6 +41,8 @@ class KsqlService(private val ksqlServerConfig: KsqlServerConfig) {
     fun sql(request: Request): Flux<ResponseTable> {
         logger.debug("KSQL server={}", ksqlServerConfig)
 
+        // see aslo:
+        // https://github.com/confluentinc/ksql/blob/master/ksql-parser/src/main/antlr4/io/confluent/ksql/parser/SqlBase.g4
         val sql = request.sql.trimStart().trimEnd()
         if (REGEX_SELECT.matches(sql)) {
             return select(request)
