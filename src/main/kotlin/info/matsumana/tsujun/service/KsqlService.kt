@@ -38,7 +38,7 @@ class KsqlService(private val ksqlServerConfig: KsqlServerConfig) {
                 arrayOf(KsqlResponseTables(KsqlResponseTablesInner("", arrayOf(KsqlResponseTablesInnerTables("", "", "", false)))))
     }
 
-    fun sql(request: Request): Flux<ResponseTable> {
+    fun execute(request: Request): Flux<ResponseTable> {
         logger.debug("KSQL server={}", ksqlServerConfig)
 
         // see aslo:
