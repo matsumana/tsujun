@@ -65,7 +65,7 @@ $ KSQL_SERVER=http://your_ksql_server ./gradlew bootRun
 
 After launch the application, you must build javascript sources with an another terminal.
 
-Since output directories are different between Gradle and IntelliJ, please use the following shell.
+Since output directories are different between Gradle and IntelliJ, please use the following scripts.
 
 ### for Gradle
 
