@@ -32,7 +32,7 @@ class KsqlService(private val ksqlServerConfig: KsqlServerConfig) {
         private val REGEX_TABLES = Regex("""^(LIST|SHOW)\s+?TABLES(\s|;)*""", RegexOption.IGNORE_CASE)
         private val emptyResponseSelect = KsqlResponseSelect(KsqlResponseSelectColumns(arrayOf()))
         private val emptyResponseQueries =
-                arrayOf(KsqlResponseQueries(KsqlResponseQueriesInner("", arrayOf(KsqlResponseQueriesInnerQueries(0, "", "")))))
+                arrayOf(KsqlResponseQueries(KsqlResponseQueriesInner("", arrayOf(KsqlResponseQueriesInnerQueries(KsqlResponseQueriesInnerQueriesId(""), "", "")))))
         private val emptyResponseStreams =
                 arrayOf(KsqlResponseStreams(KsqlResponseStreamsInner("", arrayOf(KsqlResponseStreamsInnerStreams("", "", "")))))
         private val emptyResponseTables =
@@ -145,7 +145,7 @@ class KsqlService(private val ksqlServerConfig: KsqlServerConfig) {
                         ResponseTable(sequence = request.sequence,
                                 sql = request.sql,
                                 mode = 1,
-                                data = arrayOf(m.id, m.kafkaTopic, m.queryString))
+                                data = arrayOf(m.id.id, m.kafkaTopic, m.queryString))
                     }
 
                     val list = mutableListOf(header)
