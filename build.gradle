@@ -27,7 +27,7 @@ apply plugin: "io.spring.dependency-management"
 apply plugin: "org.junit.platform.gradle.plugin"
 
 group = "info.matsumana.tsujun"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1"
 sourceCompatibility = targetCompatibility = 1.8
 [compileJava, compileTestJava]*.options*.encoding = "UTF-8"
 
