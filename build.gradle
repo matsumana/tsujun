@@ -1,7 +1,7 @@
 buildscript {
     ext {
         kotlinVersion = '1.2.10'
-        springBootVersion = "2.0.0.M7"
+        springBootVersion = "2.0.0.RC1"
 
         junitJupiterVersion = "5.0.2"
         junitPluginVersion = "1.0.2"
@@ -53,6 +53,10 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-webflux")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("io.micrometer:micrometer-core:1.0.0-rc.9")
+    compile("io.micrometer:micrometer-registry-prometheus:1.0.0-rc.9")
 
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude group: "junit", module: "junit"
