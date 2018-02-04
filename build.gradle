@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kotlinVersion = '1.2.10'
+        kotlinVersion = "1.2.10"
         springBootVersion = "2.0.0.RC1"
 
         junitJupiterVersion = "5.0.2"
@@ -19,8 +19,8 @@ buildscript {
     }
 }
 
-apply plugin: 'kotlin'
-apply plugin: 'kotlin-spring'
+apply plugin: "kotlin"
+apply plugin: "kotlin-spring"
 apply plugin: "eclipse"
 apply plugin: "org.springframework.boot"
 apply plugin: "io.spring.dependency-management"
