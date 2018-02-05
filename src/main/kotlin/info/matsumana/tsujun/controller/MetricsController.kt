@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/prometheus")
-class PrometheusController(val registry: PrometheusMeterRegistry) {
+@RequestMapping("/metrics")
+class MetricsController(val registry: PrometheusMeterRegistry) {
 
-    @GetMapping(produces = arrayOf(TextFormat.CONTENT_TYPE_004))
+    @GetMapping(produces = [TextFormat.CONTENT_TYPE_004])
     fun prometheus(): String {
         return registry.scrape()
     }
