@@ -1,6 +1,6 @@
 {
   "name": "tsujun",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "scripts": {
     "watch": "webpack -w --colors",
     "lint": "tslint --format stylish './javascripts/**/*.ts'",
