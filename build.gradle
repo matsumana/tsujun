@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kotlinVersion = "1.2.10"
+        kotlinVersion = "1.2.21"
         springBootVersion = "2.0.0.RC1"
 
         junitJupiterVersion = "5.0.2"
@@ -45,8 +45,8 @@ repositories {
 }
 
 dependencies {
-    compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}")
-    compile("org.jetbrains.kotlin:kotlin-stdlib-jre7:${kotlinVersion}")
+    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
+    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion}")
     compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     compile("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
 
