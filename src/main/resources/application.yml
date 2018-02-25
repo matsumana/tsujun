@@ -1,3 +1,9 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,env,loggers,httptrace,heapdump,threaddump,prometheus
+
 logging:
   level:
     info.matsumana.tsujun: INFO
