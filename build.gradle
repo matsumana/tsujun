@@ -1,16 +1,13 @@
 buildscript {
     ext {
-        kotlinVersion = "1.2.21"
-        springBootVersion = "2.0.0.RC2"
-        micrometerVersion = "1.0.0"
+        kotlinVersion = "1.2.51"
+        springBootVersion = "2.0.3.RELEASE"
 
         junitJupiterVersion = "5.0.2"
         junitPluginVersion = "1.0.2"
     }
     repositories {
         mavenCentral()
-        maven { url "https://repo.spring.io/snapshot" }
-        maven { url "https://repo.spring.io/milestone" }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -29,20 +26,26 @@ apply plugin: "org.junit.platform.gradle.plugin"
 
 group = "info.matsumana.tsujun"
 version = "0.0.2-SNAPSHOT"
+
 sourceCompatibility = targetCompatibility = 1.8
 [compileJava, compileTestJava]*.options*.encoding = "UTF-8"
 
 compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
+        javaParameters = true
+    }
 }
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
+    }
 }
 
 repositories {
     mavenCentral()
-    maven { url "https://repo.spring.io/snapshot" }
-    maven { url "https://repo.spring.io/milestone" }
 }
 
 dependencies {
@@ -56,8 +59,6 @@ dependencies {
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile("io.micrometer:micrometer-core:${micrometerVersion}")
-    compile("io.micrometer:micrometer-registry-prometheus:${micrometerVersion}")
 
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude group: "junit", module: "junit"
